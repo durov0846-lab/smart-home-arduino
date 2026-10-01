@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ақылды үй және автоматтандырылған автотұрақ — презентация</title>
+<style>
+:root{
+  --bg:#0b1220; --bg2:#0f1830; --card:rgba(255,255,255,0.06);
+  --border:rgba(255,255,255,0.12); --text:#e8ecf7; --muted:#9aa5c0;
+  --accent:#3b82f6; --accent2:#22d3ee;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,var(--bg),var(--bg2));color:var(--text);display:flex;flex-direction:column}
+.deck{flex:1;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:40px 8vw;opacity:0;transition:opacity .4s ease}
+.slide.active{display:flex;opacity:1}
+.slide h1{font-size:clamp(1.6rem,4vw,2.6rem);margin:0 0 18px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.slide h2{font-size:clamp(1.2rem,3vw,1.8rem);margin:0 0 20px;color:var(--accent2)}
+.slide p{font-size:clamp(1rem,2vw,1.2rem);color:var(--text);max-width:820px;line-height:1.6;margin:0 0 14px}
+.tag{display:inline-block;margin-bottom:18px;padding:6px 16px;border:1px solid var(--border);border-radius:20px;color:var(--muted);font-size:.85rem}
+.grid2{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:900px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;flex:1;min-width:240px;text-align:left}
+.card h3{color:var(--accent2);margin:0 0 8px;font-size:1.05rem}
+.card p{font-size:.95rem;margin:0;color:var(--muted)}
+.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;margin:20px 0;font-weight:600;color:var(--accent2)}
+.flow span.box{background:var(--card);border:1px solid var(--border);padding:10px 16px;border-radius:10px;color:var(--text)}
+.emoji{font-size:2.6rem;margin-bottom:10px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;border-top:1px solid var(--border);background:rgba(11,18,32,.8)}
+.nav button{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 18px;border-radius:10px;cursor:pointer;font-size:.95rem}
+.nav button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:8px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--border)}
+.dot.active{background:var(--accent2)}
+@media(max-width:600px){.grid2{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div class="deck">
+
+  <section class="slide active">
+    <div class="tag">Оқу жобасы · 2026</div>
+    <h1>АҚЫЛДЫ ҮЙ ЖӘНЕ АВТОМАТТАНДЫРЫЛҒАН АВТОТҰРАҚ</h1>
+    <p>Arduino негізінде жасалған автоматтандырылған басқару жүйесі</p>
+    <p style="color:var(--muted);font-size:.95rem">Орындаған: Асқар Аманжан, Еслим Дамир, Кулум Даурен, Тащанов Ануарбек, Амангелді Ердаулет, Нысанғали Айтжан · Тобы: АТПа-24/9қ</p>
+  </section>
+
+  <section class="slide">
+    <h2>Ақылды үй деген не?</h2>
+    <p>Ақылды үй — қоршаған орта жағдайын (жарық, температура, қозғалыс және т.б.) датчиктер арқылы автоматты түрде анықтап, адамның тікелей қатысуынсыз шешім қабылдайтын басқару жүйесі.</p>
+    <div class="flow">
+      <span class="box">Датчик</span> → <span class="box">Микроконтроллер</span> → <span class="box">Орындаушы құрылғы</span>
+    </div>
+    <p style="color:var(--muted)">Біздің жобада бұл принцип жарықтандыруды автоматты басқару үшін қолданылады.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Автоматтандыру мен датчиктің рөлі</h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Автоматты басқару не береді?</h3>
+        <p>Адамның тұрақты қатысуын қажет етпейді, қателікті азайтады, уақыт пен энергияны үнемдейді және қауіпсіздікті арттырады.</p>
+      </div>
+      <div class="card">
+        <h3>Датчик не үшін қажет?</h3>
+        <p>Датчик (LDR) қоршаған ортадағы жарық деңгейін өлшеп, сол деректі Arduino-ға жібереді — жүйе осы деректің негізінде әрекет етеді.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2>Жүйе шешімді қалай қабылдайды?</h2>
+    <p>Arduino датчиктен келген мәліметті тексеріп, алдын ала жазылған шартпен салыстырады да, соған сәйкес команда береді.</p>
+    <div class="flow">
+      <span class="box">Деректі оқу</span> → <span class="box">Шартты тексеру</span> → <span class="box">Команда беру</span>
+    </div>
+    <p style="color:var(--muted)">Мысалы: жарық деңгейі белгілі шектен төмен болса → LED қосылады. RFID картасы рұқсат етілген тізімге сәйкес келсе → шлагбаум ашылады.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Макет өмірдегі қандай мәселені шешеді?</h2>
+    <div class="emoji">🏠🚗</div>
+    <p>Макет нақты өмірде кездесетін екі мәселені көрсетеді: тұрғын үйдегі жарықтандыруды қолмен басқарудан туындайтын энергия шығынын азайту және автотұраққа бақылаусыз кіруден қорғау қажеттілігін шешу.</p>
+    <p style="color:var(--accent2);font-weight:600">Нәтиже: екі жүйе де Arduino негізінде автоматты, қауіпсіз және энергия үнемдейтін түрде жұмыс істейді.</p>
+  </section>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" aria-label="Алдыңғы слайд">← Алдыңғы</button>
+  <div class="dots" id="dots"></div>
+  <button id="nextBtn" aria-label="Келесі слайд">Келесі →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsEl = document.getElementById('dots');
+let cur = 0;
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  dotsEl.appendChild(d);
+});
+const dots = dotsEl.querySelectorAll('.dot');
+
+function show(i) {
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+  document.getElementById('prevBtn').disabled = cur === 0;
+  document.getElementById('nextBtn').disabled = cur === slides.length - 1;
+}
+document.getElementById('prevBtn').addEventListener('click', () => show(cur - 1));
+document.getElementById('nextBtn').addEventListener('click', () => show(cur + 1));
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') show(cur + 1);
+  if (e.key === 'ArrowLeft') show(cur - 1);
+});
+show(0);
+</script>
+</body>
+</html>
