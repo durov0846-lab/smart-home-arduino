@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ақылды үй және автоматтандырылған автотұрақ | Arduino</title>
+<meta name="description" content="Arduino негізінде жасалған ақылды үй және RFID автотұрақ жүйесі — оқу жобасы">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">Ақылды Жоба · <span class="team-name">Falcons</span></div>
+  <nav id="navLinks">
+    <a href="#home">Басты бет</a>
+    <a href="#about">Жоба</a>
+    <a href="#home-demo">Ақылды үй</a>
+    <a href="#parking-demo">Автотұрақ</a>
+    <a href="#components">Компоненттер</a>
+    <a href="#sketch">Эскиз</a>
+    <a href="#scheme">Сұлба</a>
+    <a href="#code">Код</a>
+    <a href="#materials">Материалдар</a>
+    <a href="#result">Нәтиже</a>
+  </nav>
+  <button id="menuBtn" aria-label="Мәзірді ашу">☰</button>
+</header>
+
+<section id="home" class="hero">
+  <div class="hero-text">
+    <h1>АҚЫЛДЫ ҮЙ ЖӘНЕ АВТОМАТТАНДЫРЫЛҒАН АВТОТҰРАҚ</h1>
+    <p class="sub">Arduino негізінде жасалған автоматтандырылған басқару жүйесі</p>
+    <p>Проект автоматты жарықтандыру жүйесін және RFID-карта арқылы басқарылатын автоматтандырылған автотұрақты бір интеллектуалды жүйеге біріктіреді.</p>
+    <div class="hero-btns">
+      <a href="#about" class="btn primary">Жобамен танысу</a>
+      <a href="#home-demo" class="btn ghost">Жүйенің жұмысын көру</a>
+    </div>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <div class="house">🏠</div>
+    <div class="car">🚗</div>
+    <div class="barrier">🚧</div>
+  </div>
+</section>
+
+<section id="about" class="section">
+  <h2>Жобаның мақсаты мен міндеттері</h2>
+  <p>Бұл жобаның негізгі мақсаты — Arduino микроконтроллері негізінде автоматтандырылған басқару жүйесін әзірлеу және оның жұмыс принципін тәжірибе жүзінде көрсету. Жоба барысында RFID арқылы қолжетімділікті басқару, сервопривод көмегімен шлагбаумды автоматты басқару және жарық датчигі арқылы үй ішіндегі жарықтандыруды автоматты реттеу принциптері қарастырылады.</p>
+  <ol class="task-list">
+    <li>Arduino Uno микроконтроллерінің жұмыс принципін зерттеу</li>
+    <li>RFID жүйесінің жұмыс принципін қарастыру</li>
+    <li>Сервопривод арқылы шлагбаумды басқару</li>
+    <li>Жарық датчигінің көмегімен жарық деңгейін анықтау</li>
+    <li>Электрлік қосылу схемасын құру және бағдарлама әзірлеу</li>
+  </ol>
+</section>
+
+<section id="home-demo" class="section demo">
+  <h2>АҚЫЛДЫ ҮЙ ЖҮЙЕСІ</h2>
+  <p>Жарық деңгейі жоғары болса — жарық өшеді, төмен болса (қараңғы) — жарық автоматты қосылады.</p>
+  <div class="demo-box">
+    <div class="house-visual">
+      <div id="houseIcon" class="big-icon">🏠</div>
+      <div id="lampIcon" class="lamp">💡</div>
+    </div>
+    <div class="controls">
+      <span>Жарық деңгейі:</span>
+      <button id="lightBtn" class="toggle-btn">Жарық</button>
+      <p id="houseStatus" class="status">Күй: Жарық — шамдар өшірулі</p>
+    </div>
+  </div>
+  <p class="flow">LDR → Arduino → LED</p>
+</section>
+
+<section id="parking-demo" class="section demo">
+  <h2>АВТОМАТТАНДЫРЫЛҒАН АВТОТҰРАҚ</h2>
+  <p>RFID карта арқылы қолжетімділікті тексеру және шлагбаумды автоматты басқару демонстрациясы.</p>
+  <div class="parking-box">
+    <div class="parking-visual">
+      <div id="carIcon" class="big-icon">🚗</div>
+      <div id="barrierIcon" class="barrier-icon">🚧</div>
+      <div id="rfidIcon" class="rfid-icon">🪪</div>
+      <div class="reader">📡</div>
+      <div id="indicator" class="indicator red"></div>
+    </div>
+    <p id="parkStatus" class="status">Күй: Күтуде...</p>
+    <div class="controls">
+      <button id="validCardBtn" class="btn primary">Картаны жақындату</button>
+      <button id="invalidCardBtn" class="btn ghost">Рұқсат етілмеген картаны тексеру</button>
+    </div>
+  </div>
+  <ol class="steps">
+    <li>Пайдаланушы RFID картасын считывательге жақындатады</li>
+    <li>RFID RC522 карта идентификаторын оқиды</li>
+    <li>Arduino алынған мәліметті тексереді</li>
+    <li>Рұқсат етілген болса — сервопривод іске қосылады</li>
+    <li>Шлагбаум көтеріледі, автомобиль өтеді</li>
+    <li>Белгілі уақыттан кейін шлагбаум жабылады</li>
+  </ol>
+</section>
+
+<section id="components" class="section">
+  <h2>ҚОЛДАНЫЛАТЫН КОМПОНЕНТТЕР</h2>
+  <div class="card-grid">
+    <div class="card"><div class="icon">🔧</div><h3>Arduino Uno</h3><p>Жобаның негізгі микроконтроллері.</p></div>
+    <div class="card"><div class="icon">📡</div><h3>RFID RC522</h3><p>RFID карталарды оқуға арналған модуль.</p></div>
+    <div class="card"><div class="icon">🪪</div><h3>RFID Card</h3><p>Пайдаланушыны идентификациялау құралы.</p></div>
+    <div class="card"><div class="icon">⚙️</div><h3>Servo SG90</h3><p>Шлагбаумды көтеру/түсіру үшін қолданылады.</p></div>
+    <div class="card"><div class="icon">☀️</div><h3>LDR датчигі</h3><p>Қоршаған ортадағы жарық деңгейін анықтайды.</p></div>
+    <div class="card"><div class="icon">💡</div><h3>LED</h3><p>Жарықтандыру мен индикация үшін қолданылады.</p></div>
+    <div class="card"><div class="icon">🔌</div><h3>Резисторлар</h3><p>Электр тізбегіндегі токты шектейді.</p></div>
+  </div>
+</section>
+
+<section id="sketch" class="section">
+  <h2>МАКЕТТІҢ ЭСКИЗІ</h2>
+  <div class="sketch-wrap">
+<svg width="100%" viewBox="0 0 680 460" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Ақылды үй және автотұрақ макетінің эскизі</title>
+<desc>Сол жақта LED және LDR датчигі бар үй, ортада Arduino Uno, оң жақта RFID считыватель, шлагбаум және автомобиль бар автотұрақ учаскесі.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#9aa5c0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+<rect x="0" y="0" width="680" height="460" fill="#0b1220"/>
+<line x1="40" y1="380" x2="640" y2="380" stroke="#2a3652" stroke-width="1"/>
+<rect x="70" y="260" width="140" height="120" fill="none" stroke="#3b82f6" stroke-width="1.5" rx="2"/>
+<polygon points="60,260 140,200 220,260" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+<rect x="170" y="320" width="30" height="60" fill="none" stroke="#9aa5c0" stroke-width="1"/>
+<rect x="90" y="290" width="36" height="36" fill="none" stroke="#9aa5c0" stroke-width="1"/>
+<circle cx="108" cy="308" r="7" fill="#1a2a1a" stroke="#f0b429" stroke-width="1"/>
+<text x="108" y="309" text-anchor="middle" dominant-baseline="central" font-size="9" fill="#f0b429" font-family="sans-serif">LED</text>
+<circle cx="140" cy="225" r="9" fill="#0d2430" stroke="#22d3ee" stroke-width="1"/>
+<text x="140" y="226" text-anchor="middle" dominant-baseline="central" font-size="9" fill="#22d3ee" font-family="sans-serif">LDR</text>
+<line x1="140" y1="234" x2="140" y2="255" stroke="#22d3ee" stroke-width="0.5" stroke-dasharray="3 2"/>
+<text x="140" y="405" text-anchor="middle" font-size="14" fill="#e8ecf7" font-family="sans-serif" font-weight="500">Ақылды үй</text>
+<rect x="300" y="300" width="100" height="70" rx="8" fill="#1a1530" stroke="#7f77dd" stroke-width="1"/>
+<text x="350" y="328" text-anchor="middle" dominant-baseline="central" font-size="14" fill="#cecbf6" font-family="sans-serif" font-weight="500">Arduino</text>
+<text x="350" y="346" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#afa9ec" font-family="sans-serif">Uno</text>
+<text x="350" y="405" text-anchor="middle" font-size="14" fill="#e8ecf7" font-family="sans-serif" font-weight="500">Басқару блогы</text>
+<path d="M210 320 L300 320" fill="none" stroke="#9aa5c0" stroke-width="1" marker-end="url(#arrow)"/>
+<path d="M400 320 L470 320" fill="none" stroke="#9aa5c0" stroke-width="1" marker-end="url(#arrow)"/>
+<rect x="470" y="355" width="150" height="25" fill="none" stroke="#5f5e5a" stroke-width="1"/>
+<rect x="495" y="330" width="10" height="50" fill="none" stroke="#9aa5c0" stroke-width="1"/>
+<line x1="500" y1="332" x2="555" y2="310" stroke="#9aa5c0" stroke-width="3" stroke-linecap="round"/>
+<rect x="460" y="300" width="14" height="40" fill="none" stroke="#f0997b" stroke-width="1"/>
+<rect x="452" y="288" width="30" height="16" rx="3" fill="#2a160e" stroke="#f0997b" stroke-width="1"/>
+<text x="467" y="296" text-anchor="middle" dominant-baseline="central" font-size="9" fill="#f0997b" font-family="sans-serif">RFID</text>
+<rect x="540" y="340" width="70" height="26" rx="6" fill="#0c2a4a" stroke="#378ADD" stroke-width="1"/>
+<circle cx="555" cy="368" r="7" fill="none" stroke="#9aa5c0" stroke-width="1"/>
+<circle cx="595" cy="368" r="7" fill="none" stroke="#9aa5c0" stroke-width="1"/>
+<text x="575" y="355" text-anchor="middle" dominant-baseline="central" font-size="9" fill="#dce8f7" font-family="sans-serif">авто</text>
+<text x="545" y="405" text-anchor="middle" font-size="14" fill="#e8ecf7" font-family="sans-serif" font-weight="500">Автотұрақ</text>
+<circle cx="90" cy="440" r="5" fill="#f0b429"/>
+<text x="102" y="441" dominant-baseline="central" font-size="12" fill="#9aa5c0" font-family="sans-serif">Жарық (LED)</text>
+<circle cx="250" cy="440" r="5" fill="#22d3ee"/>
+<text x="262" y="441" dominant-baseline="central" font-size="12" fill="#9aa5c0" font-family="sans-serif">Датчик (LDR)</text>
+<circle cx="400" cy="440" r="5" fill="#f0997b"/>
+<text x="412" y="441" dominant-baseline="central" font-size="12" fill="#9aa5c0" font-family="sans-serif">RFID считыватель</text>
+<circle cx="580" cy="440" r="5" fill="#7f77dd"/>
+<text x="592" y="441" dominant-baseline="central" font-size="12" fill="#9aa5c0" font-family="sans-serif">Басқару</text>
+</svg>
+  </div>
+</section>
+
+<section id="scheme" class="section">
+  <h2>ЭЛЕКТРЛІК СҰЛБА <span class="tag">Үлгілік нұсқа</span></h2>
+  <table class="pin-table">
+    <tr><th>Компонент</th><th>Arduino Pin</th><th>Мақсаты</th></tr>
+    <tr><td>RFID SDA</td><td>D10</td><td>Деректер таңдау</td></tr>
+    <tr><td>RFID SCK/MOSI/MISO</td><td>D13/D11/D12</td><td>SPI байланыс</td></tr>
+    <tr><td>RFID RST</td><td>D9</td><td>Модульді іске қосу</td></tr>
+    <tr><td>Servo Signal</td><td>D6 (PWM)</td><td>Шлагбаумды басқару</td></tr>
+    <tr><td>LDR</td><td>A0</td><td>Жарық деңгейін өлшеу</td></tr>
+    <tr><td>LED</td><td>D3 (резистор арқылы)</td><td>Жарықтандыру</td></tr>
+  </table>
+</section>
+
+<section id="code" class="section">
+  <h2>БАҒДАРЛАМАЛЫҚ ҚАМТАМАСЫЗ ЕТУ</h2>
+  <button id="codeToggle" class="btn primary">Кодты көрсету</button>
+  <div id="codeBlock" class="code-block hidden">
+    <button id="copyBtn" class="btn ghost small">Кодты көшіру</button>
+    <pre id="codeText">#include &lt;SPI.h&gt;
+#include &lt;MFRC522.h&gt;
+#include &lt;Servo.h&gt;
+
+#define SS_PIN 10
+#define RST_PIN 9
+#define LDR_PIN A0
+#define LED_PIN 3
+
+MFRC522 rfid(SS_PIN, RST_PIN);
+Servo barrier;
+byte allowedUID[4] = {0xDE, 0xAD, 0xBE, 0xEF}; // мысал UID
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();
+  rfid.PCD_Init();
+  barrier.attach(6);
+  barrier.write(0);
+  pinMode(LED_PIN, OUTPUT);
+}
+
+void loop() {
+  int light = analogRead(LDR_PIN);
+  digitalWrite(LED_PIN, light &lt; 400 ? HIGH : LOW);
+
+  if (rfid.PICC_IsNewCardPresent() &amp;&amp; rfid.PICC_ReadCardSerial()) {
+    bool ok = true;
+    for (byte i = 0; i &lt; 4; i++) {
+      if (rfid.uid.uidByte[i] != allowedUID[i]) ok = false;
+    }
+    if (ok) {
+      Serial.println("Карта рұқсат етілді");
+      barrier.write(90);
+      delay(3000);
+      barrier.write(0);
+    } else {
+      Serial.println("Карта қабылданбады");
+    }
+    rfid.PICC_HaltA();
+  }
+  delay(200);
+}</pre>
+  </div>
+</section>
+
+<section class="section">
+  <h2>АРТЫҚШЫЛЫҚТАРЫ</h2>
+  <div class="card-grid">
+    <div class="card"><h3>Автоматтандыру</h3><p>Жүйе адамның тұрақты араласуын қажет етпейді.</p></div>
+    <div class="card"><h3>Қауіпсіздік</h3><p>RFID арқылы рұқсатсыз кіруді шектеуге болады.</p></div>
+    <div class="card"><h3>Энергияны үнемдеу</h3><p>Жарық тек қажетті жағдайда қосылады.</p></div>
+    <div class="card"><h3>Кеңейтілу мүмкіндігі</h3><p>Arduino негізінде жүйені өзгертуге болады.</p></div>
+  </div>
+</section>
+
+<section id="result" class="section">
+  <h2>ЖОБАНЫҢ НӘТИЖЕСІ</h2>
+  <p>Нәтижесінде Arduino негізінде жұмыс істейтін екі функционалды жүйе жасалды: 🏠 автоматты жарықтандыру жүйесі және 🚗 RFID арқылы басқарылатын автоматтандырылған автотұрақ.</p>
+</section>
+
+<section id="materials" class="section">
+  <h2>ЖОБА МАТЕРИАЛДАРЫ</h2>
+  <div class="card-grid">
+    <a class="card material-card" href="presentation.html" target="_blank" rel="noopener">
+      <div class="icon">📊</div>
+      <h3>Презентация</h3>
+      <p>Жобаны қорғауға арналған 5 слайдтық презентацияны ашу</p>
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p><strong>Arduino Smart Home &amp; Smart Parking</strong> — Оқу жобасы</p>
+  <p>Орындаған: Асқар Аманжан, Еслим Дамир, Кулум Даурен, Тащанов Ануарбек, Амангелді Ердаулет, Нысанғали Айтжан</p>
+  <p>Тобы: АТПа-24/9қ · Практика: С.Мұқашев атындағы жоғары политехникалық колледж · 2026</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
